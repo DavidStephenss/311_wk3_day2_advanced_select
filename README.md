@@ -37,18 +37,37 @@ We are going to run a couple SQL queries and put the answers in the "Query Respo
 ## Query Responses
 
 1. Sums
-  * AK:
-  * CT
-  * TX:
-  * WY:
+SELECT state, SUM(user_id)
+FROM usersAddress
+WHERE state='AZ' OR state='AK' OR state='TX' OR state='WY'
+GROUP BY state
+  * AK: 1422
+  * CT: 2274
+  * TX: 7908
+  * WY: 1271
 
 2.
-  * Area code:
+SELECT
+SUBSTR(phone2, 1, 3),
+Count(*)
+FROM usersContact
+GROUP BY SUBSTR(phone2, 1, 3)
+ORDER BY count(*) DESC
+  * Area code: 973
 
 3.
-  * first_name:
-  * county:
-  * county total:
+SELECT
+	MIN(first_name),
+    county,
+    count(*) AS tally
+    FROM users
+    JOIN usersAddress
+    WHERE users.id=usersAddress.user_id
+    GROUP BY county DESC
+    HAVING tally > 10
+  * first_name: Alaine
+  * county:cook
+  * county total:11
 
 
 ## Summary
